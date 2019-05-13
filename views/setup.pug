@@ -1,0 +1,16 @@
+extends layout
+block content
+  .setup
+      h1= title
+      p Welcome to #{title}
+      div
+         form(action='setup/devices', method='post')
+          ul
+            each device, index in devices.items
+              li
+                label
+                    input(type="checkbox", name="#{device.deviceId}", id="#{device.deviceId}", checked=(true))
+                    = device.label + " " + "(" + device.dth.deviceTypeName + ")"
+
+          input(type='submit',value='Next',data-transition='fade', data-theme='c')
+
