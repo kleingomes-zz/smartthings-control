@@ -7,8 +7,12 @@ block content
     div
       form(action='/devices', method='post')
         ul
-          each device, index in devices.items
+          each deviceComponent, index in deviceComponents
             li
-                = device.label + " " + "(" + device.dth.deviceTypeName + ")"
-                input(type='submit', value="on", data-transition='fade', data-theme='c', name=device.deviceId, id=device.deviceId)
+                = deviceComponent.device.label + " " + "(" + deviceComponent.device.dth.deviceTypeName + ")"
+            if (deviceComponent.device.switch !== "")
+               input(type='submit', value=deviceComponent.device.switch, data-transition='fade', data-theme='c', name=deviceComponent.device.deviceId, id=deviceComponent.device.deviceId)
+
+
+
 

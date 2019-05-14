@@ -1,10 +1,3 @@
-/**
- * Sample WebHook app for integrating with the SmartThings One IoT API.
- *
- * The app will set the color of a SmartThings-connected Color Control bulb
- * according to the current weather conditions of a user-entered US five-digit
- * Zip Code.
- */
 'use strict';
 
 var request = require('request');

@@ -13,18 +13,30 @@ router.get('/', function(req, res, next) {
     devices.items.forEach(device => {
       promises.push(st.getFullDeviceStatus(device.deviceId).then(function(reqResult) {
         return {
-          deviceId: device.deviceId,
-          value: reqResult
+          device: device,
+          component: reqResult
         }
       }));
     });
     Promise.all(promises)
-        .then(values => {
+        .then(deviceComponents => {
           console.log("all the promises were resolved!");
-          for (let val of values) {
-            console.log(val);
+          for (let deviceComponent of deviceComponents) {
+            //console.log(val.value);
+            //deviceComponent.device = deviceComponent.component;
+            for (let capability in deviceComponent.component.components.main) {
+              if (capability === "switch") {
+                if (deviceComponent.component.components.main.switch.switch.value === "on")
+                    deviceComponent.device.switch ="off";
+                else
+                    deviceComponent.device.switch = "on";
+                break;
+              } else {
+                  deviceComponent.device.switch = "";
+              }
+            }
           }
-          res.render('index', { title: 'Devices', devices: devices });
+          res.render('index', { title: 'Devices', deviceComponents: deviceComponents });
         })
         .catch(e => {
           console.log("error: ", e);
@@ -40,7 +52,8 @@ router.post('/devices', function(req, res) {
   } else {
     st.actuate(deviceId, sw.off());
   }
-  res.send('respond with a resource');
+  //res.send('respond with a resource');
+  res.redirect('http://localhost:3000')
 });
 
 module.exports = router;
